@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Northstar Financial</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #eef2f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #17202a;
+}
+
+.card {
+    width: 450px;
+    max-width: 94%;
+    background: white;
+    padding: 34px;
+    border-radius: 18px;
+    box-shadow: 0 15px 45px rgba(0,0,0,.15);
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.logo-icon {
+    width: 58px;
+    height: 58px;
+    margin: auto;
+    border-radius: 50%;
+    background: #163d68;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.logo h1 {
+    color: #163d68;
+    font-size: 24px;
+    margin: 12px 0 4px;
+}
+
+.logo span {
+    color: #7b8794;
+    font-size: 12px;
+}
+
+h2 {
+    margin-top: 15px;
+}
+
+p {
+    color: #667085;
+    line-height: 1.55;
+}
+
+label {
+    display: block;
+    margin: 17px 0 7px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ccd3dc;
+    border-radius: 9px;
+    font-size: 15px;
+}
+
+button {
+    width: 100%;
+    margin-top: 23px;
+    padding: 14px;
+    border: none;
+    border-radius: 9px;
+    background: #163d68;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #102f51;
+}
+
+/* Verification screen */
+
+#checking,
+#restricted {
+    display: none;
+    text-align: center;
+}
+
+.loader {
+    width: 55px;
+    height: 55px;
+    margin: 25px auto;
+    border: 5px solid #e1e7ee;
+    border-top: 5px solid #163d68;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Restricted screen */
+
+.warning {
+    width: 72px;
+    height: 72px;
+    margin: 10px auto 20px;
+    border-radius: 50%;
+    background: #fff0f0;
+    color: #c62828;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.status-box {
+    background: #f7f9fc;
+    border-radius: 12px;
+    padding: 18px;
+    margin: 22px 0;
+    text-align: left;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+.row strong {
+    text-align: right;
+}
+
+.red {
+    color: #b42318;
+    font-weight: bold;
+}
+
+.balance {
+    font-size: 18px;
+}
+
+.security {
+    margin-top: 20px;
+    padding: 14px;
+    border-radius: 9px;
+    background: #fff8e6;
+    color: #795600;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.timer {
+    margin-top: 18px;
+    font-size: 12px;
+    color: #8a94a6;
+}
+
+.reveal {
+    display: none;
+    margin-top: 20px;
+    padding: 18px;
+    border-radius: 10px;
+    background: #e8f4ff;
+    color: #174ea6;
+    font-weight: bold;
+    line-height: 1.5;
+}
+
+.footer {
+    text-align: center;
+    color: #9aa4b2;
+    font-size: 10px;
+    margin-top: 24px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <!-- LOGIN -->
+
+    <div id="login">
+
+        <div class="logo">
+            <div class="logo-icon">$</div>
+            <h1>Northstar Financial</h1>
+            <span>Secure Online Account Access</span>
+        </div>
+
+        <h2>Welcome back</h2>
+
+        <p>
+            Sign in to securely access your account.
+        </p>
+
+        <form id="loginForm">
+
+            <label>Username</label>
+            <input
+                type="text"
+                required
+                autocomplete="off"
+            >
+
+            <label>Password</label>
+            <input
+                type="password"
+                required
+                autocomplete="off"
+            >
+
+            <button type="submit">
+                Sign In
+            </button>
+
+        </form>
+
+        <div class="footer">
+            Secure connection
+        </div>
+
+    </div>
+
+
+    <!-- VERIFICATION -->
+
+    <div id="checking">
+
+        <div class="logo">
+            <div class="logo-icon">$</div>
+            <h1>Northstar Financial</h1>
+        </div>
+
+        <div class="loader"></div>
+
+        <h2 id="checkingTitle">
+            Verifying your account...
+        </h2>
+
+        <p id="checkingText">
+            Please wait while we complete a security check.
+        </p>
+
+    </div>
+
+
+    <!-- RESTRICTED ACCOUNT -->
+
+    <div id="restricted">
+
+        <div class="warning">
+            !
+        </div>
+
+        <h2 style="color:#b42318;">
+            Account Temporarily Restricted
+        </h2>
+
+        <p>
+            We've detected unusual activity and temporarily
+            restricted access to certain account functions.
+        </p>
+
+
+        <div class="status-box">
+
+            <div class="row">
+                <span>Account</span>
+                <strong>Personal Checking</strong>
+            </div>
+
+            <div class="row">
+                <span>Available Balance</span>
+                <strong class="balance">$1,284,631.17</strong>
+            </div>
+
+            <div class="row">
+                <span>Account Status</span>
+                <span class="red">RESTRICTED</span>
+            </div>
+
+            <div class="row">
+                <span>Security Review</span>
+                <strong>Required</strong>
+            </div>
+
+        </div>
+
+
+        <div class="security">
+            <strong>Security Notice</strong><br><br>
+
+            Transfers and withdrawals are temporarily unavailable
+            while the account undergoes a security review.
+        </div>
+
+
+        <div class="timer">
+            Security review in progress...
+        </div>
+
+
+        <!-- MANUAL REVEAL -->
+
+        <div class="reveal" id="reveal">
+
+            😂 <strong>GOT YOU!</strong><br><br>
+
+            You just got pranked. There is no real account or
+            money involved — this is a fictional prank page.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/*
+    Nothing entered into the login form is transmitted,
+    saved, or sent anywhere.
+*/
+
+const loginForm = document.getElementById("loginForm");
+
+loginForm.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    document.getElementById("login").style.display = "none";
+    document.getElementById("checking").style.display = "block";
+
+
+    // Verification sequence
+
+    setTimeout(function() {
+
+        document.getElementById("checkingTitle").textContent =
+            "Checking account activity...";
+
+        document.getElementById("checkingText").textContent =
+            "Reviewing recent account activity.";
+
+    }, 1800);
+
+
+    setTimeout(function() {
+
+        document.getElementById("checkingTitle").textContent =
+            "Security verification required";
+
+        document.getElementById("checkingText").textContent =
+            "Additional security restrictions are being applied.";
+
+    }, 3500);
+
+
+    setTimeout(function() {
+
+        document.getElementById("checking").style.display = "none";
+        document.getElementById("restricted").style.display = "block";
+
+    }, 5200);
+
+});
+
+
+/*
+    MANUAL PRANK REVEAL
+
+    Press Ctrl + Shift + R on the keyboard
+    whenever you want to reveal the prank.
+*/
+
+document.addEventListener("keydown", function(event) {
+
+    if (
+        event.ctrlKey &&
+        event.shiftKey &&
+        event.key.toLowerCase() === "r"
+    ) {
+
+        const reveal = document.getElementById("reveal");
+
+        if (reveal.style.display === "block") {
+            return;
+        }
+
+        reveal.style.display = "block";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
